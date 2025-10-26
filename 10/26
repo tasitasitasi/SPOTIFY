@@ -1,0 +1,148 @@
+# %% =======================
+# most recent model
+# =======================
+import pandas as pd
+import numpy as np
+import matplotlib.pyplot as plt
+from sklearn.model_selection import train_test_split, RandomizedSearchCV
+from sklearn.metrics import (
+    classification_report,
+    confusion_matrix,
+    accuracy_score,
+    f1_score,
+    precision_recall_curve,
+    average_precision_score
+)
+from sklearn.preprocessing import StandardScaler
+from sklearn.compose import ColumnTransformer
+from sklearn.pipeline import Pipeline
+from sklearn.calibration import CalibratedClassifierCV
+
+# Try XGBoost, fallback to sklearn HistGradientBoosting
+try:
+    from xgboost import XGBClassifier
+    USE_XGB = True
+except Exception:
+    from sklearn.ensemble import HistGradientBoostingClassifier
+    USE_XGB = False
+
+# %% =======================
+# 2. Load and prepare data
+# =======================
+# df = pd.read_csv("your_data.csv")  # if not already loaded
+df = df.copy()
+
+# Binary target: Top 20% tracks (popularity >= 80th percentile)
+df["is_popular"] = (df["track_popularity"] >= df["track_popularity"].quantile(0.8)).astype(int)
+
+# Define features and target
+X = df.drop(columns=["track_popularity", "is_popular"])
+y = df["is_popular"]
+
+# Identify continuous and discrete columns
+cont_cols = [
+    "danceability", "energy", "loudness", "speechiness", "acousticness",
+    "instrumentalness", "liveness", "valence", "tempo"
+]
+disc_cols = ["musical_key", "mode", "time_signature", "release_year"]
+
+# Train/test split (stratified)
+X_train, X_test, y_train, y_test = train_test_split(
+    X, y, test_size=0.2, random_state=42, stratify=y
+)
+
+# Preprocess: scale continuous, pass through discrete
+pre = ColumnTransformer(
+    transformers=[
+        ("scale", StandardScaler(), cont_cols),
+        ("pass", "passthrough", disc_cols)
+    ]
+)
+
+# %% =======================
+# 3. Build & train model
+# =======================
+pos = y_train.sum()
+neg = (y_train == 0).sum()
+scale_pos_weight = neg / max(pos, 1)  # used by XGB
+
+if USE_XGB:
+    clf = XGBClassifier(
+        objective="binary:logistic",
+        eval_metric="logloss",
+        tree_method="hist",
+        random_state=42,
+        scale_pos_weight=scale_pos_weight,
+        n_estimators=600,
+        max_depth=5,
+        learning_rate=0.07,
+        subsample=0.9,
+        colsample_bytree=0.8,
+        min_child_weight=3,
+        gamma=0.0
+    )
+    pipe = Pipeline([("pre", pre), ("clf", clf)])
+    pipe.fit(X_train, y_train)
+else:
+    # Fallback: HistGradientBoostingClassifier
+    from sklearn.ensemble import HistGradientBoostingClassifier
+    class_counts = y_train.value_counts()
+    inv_freq = y_train.map(
+        {c: len(y_train) / (len(class_counts) * class_counts[c]) for c in class_counts.index}
+    ).astype(float)
+
+    clf = HistGradientBoostingClassifier(
+        learning_rate=0.07,
+        max_iter=700,
+        random_state=42
+    )
+    pipe = Pipeline([("pre", pre), ("clf", clf)])
+    pipe.fit(X_train, y_train, clf__sample_weight=inv_freq)
+
+# %% =======================
+# 4. Calibrate probabilities
+# =======================
+cal = CalibratedClassifierCV(pipe, method="isotonic", cv=3)
+cal.fit(X_train, y_train)
+y_proba = cal.predict_proba(X_test)[:, 1]
+
+# %% =======================
+# 5. Threshold tuning
+# =======================
+best_thr, best_f1 = 0.5, 0.0
+for thr in np.linspace(0.3, 0.7, 21):
+    f1 = f1_score(y_test, (y_proba >= thr).astype(int))
+    if f1 > best_f1:
+        best_thr, best_f1 = thr, f1
+
+y_pred = (y_proba >= best_thr).astype(int)
+
+print("Model:", "XGBoost" if USE_XGB else "HistGradientBoosting (sklearn)")
+print(f"Chosen threshold: {best_thr:.2f}")
+print("Accuracy:", accuracy_score(y_test, y_pred))
+print(classification_report(y_test, y_pred, target_names=["not_popular", "popular"]))
+print("Confusion Matrix:\n", confusion_matrix(y_test, y_pred))
+
+# %% =======================
+# 6. Precision–Recall curve
+# =======================
+prec, rec, thr = precision_recall_curve(y_test, y_proba)
+ap = average_precision_score(y_test, y_proba)
+
+plt.figure(figsize=(6, 5))
+plt.plot(rec, prec, color="blue", lw=2)
+plt.title(f"Precision–Recall Curve (AP = {ap:.3f})")
+plt.xlabel("Recall")
+plt.ylabel("Precision")
+plt.grid(True)
+plt.show()
+
+# %% =======================
+# 7. Optional: Feature Importance (HGB only)
+# =======================
+if not USE_XGB:
+    from sklearn.inspection import permutation_importance
+    r = permutation_importance(pipe, X_test, y_test, n_repeats=5, random_state=42, n_jobs=-1)
+    feat_names = cont_cols + disc_cols
+    fi = pd.Series(r.importances_mean, index=feat_names).sort_values(ascending=False)
+    print("\nTop Features:\n", fi.head(10))
