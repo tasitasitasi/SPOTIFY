@@ -111,6 +111,9 @@ Evaluation metrics:
   <img src="assets/demo.gif" width="700" alt="Demo of model dashboard">
 </p>
 
+---
+
+
 ### 🧩 Future Work
 
 Integrate Spotify Web API for real-time predictions using track IDs
@@ -120,6 +123,10 @@ Add genre and lyrical sentiment analysis
 Build a full interactive dashboard for prediction and visualization
 
 Explore year-by-year predictive models to capture changing music trends
+
+---
+
+
 
 ### 👩‍💻 Team Members
 
@@ -133,6 +140,10 @@ Martin Gonzalez – Deployment, Dashboard Development, Presentation
 
 ### 📚 References
 
+---
+
+
+
 Herremans, D., Martens, D., & Sörensen, K. (2014). Dance Hit Song Prediction.
 
 Zangerle, E., Huber, R., & Vötter, M. (2019). Hit Song Prediction: Leveraging Low- and High-Level Audio Features.
@@ -140,6 +151,10 @@ Zangerle, E., Huber, R., & Vötter, M. (2019). Hit Song Prediction: Leveraging L
 Lech, M. E., Lehmann, S., & Juul, J. L. (2025). Is It Getting Harder to Make a Hit?
 
 Spotify Web API Documentation
+
+
+---
+
 
 ### 🧾 License
 
