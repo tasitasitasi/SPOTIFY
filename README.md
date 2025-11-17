@@ -140,10 +140,6 @@ Martin Gonzalez – Deployment, Dashboard Development, Presentation
 
 ### 📚 References
 
----
-
-
-
 Herremans, D., Martens, D., & Sörensen, K. (2014). Dance Hit Song Prediction.
 
 Zangerle, E., Huber, R., & Vötter, M. (2019). Hit Song Prediction: Leveraging Low- and High-Level Audio Features.
