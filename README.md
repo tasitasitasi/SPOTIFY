@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="assets/banner.png" alt="Spotify Popularity Prediction Banner" width="850">
+  <img src="assets/poster.png" alt="Spotify Popularity Prediction Poster" width="850">
 </p>
 
 # 🎵 Predicting Spotify Track Popularity (2012–2021)
