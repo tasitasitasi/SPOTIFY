@@ -1,87 +1,108 @@
-🎵 Predicting Spotify Track Popularity (2012–2021)
-FAU ISC 4941 – Data Science Capstone Project
+<p align="center">
+  <img src="assets/banner.png" alt="Spotify Popularity Prediction Banner" width="850">
+</p>
 
-Team Members:
-Nikita Belii · Tasianna Giordano · Anthony Gutierrez · Martin Gonzalez
+# 🎵 Predicting Spotify Track Popularity (2012–2021)
 
-📖 Overview
+### FAU ISC 4941 – Data Science Capstone Project
 
-This project explores whether we can predict a song’s popularity on Spotify based on its audio features and metadata. Using a dataset of over 62,000 tracks released between 2012 and 2021, we trained machine learning models to identify which musical elements—like energy, danceability, loudness, and valence—most strongly influence popularity.
+<p align="center">
+  
+![Python](https://img.shields.io/badge/Python-3.10-blue?logo=python)
+![Pandas](https://img.shields.io/badge/Pandas-Data%20Analysis-150458?logo=pandas)
+![NumPy](https://img.shields.io/badge/NumPy-Scientific%20Computing-013243?logo=numpy)
+![scikit-learn](https://img.shields.io/badge/Scikit--Learn-Machine%20Learning-F7931E?logo=scikitlearn)
+![FAU](https://img.shields.io/badge/FAU-Data%20Science-blue)
 
-Spotify’s popularity score (0–100) reflects streaming frequency, recency, and user engagement. For this project, we converted it into a binary label (popular vs. not popular) to simplify the task into a classification problem.
+</p>
 
-🎯 Objective
+---
 
-Our main goal was to build a predictive model that could estimate how popular a song might become using only its audio features. Beyond prediction, we wanted to uncover meaningful insights about what makes music resonate with listeners in the modern streaming era.
+## 📖 Overview
+This project explores whether we can **predict a song’s popularity on Spotify** based solely on its **audio features and metadata**. Using more than **62,000 tracks released from 2012–2021**, we trained machine learning models to identify which characteristics—such as **energy, danceability, loudness, and valence**—are most strongly associated with high popularity.
 
-💡 Key Findings
+Spotify’s popularity score ranges from **0 to 100**, but because the metric is influenced by several complex factors (stream counts, recency, user engagement), we transformed it into a **binary classification**:  
+- **Popular** (top 20%)  
+- **Not popular** (bottom 80%)  
 
-Dataset filtered to 62,015 tracks from 2012–2021 to align with Spotify’s modern metrics (post-“Follow” feature).
+Our goal is not only prediction but also **understanding** what makes music resonate in today’s streaming landscape.
 
-Gradient Boosting Classifier achieved around 75% accuracy, with balanced precision and recall.
+---
 
-Top predictors of popularity:
+## 🎯 Objective
+The main objective of this project is to build a machine learning model capable of estimating a track’s popularity using **audio features only**, while uncovering important insights into how modern musical elements influence listener preferences.
 
-Energy
+---
 
-Danceability
+## 💡 Key Findings
+- After filtering the dataset to include **tracks released after 2012**, we analyzed **62,015 tracks**.
+- A **Gradient Boosting Classifier** produced the strongest results with **~75% accuracy**, balanced precision, and strong AUC.
+- Top predictors of popularity were:  
+  - **Energy**  
+  - **Danceability**  
+  - **Loudness**  
+  - **Release Year**
+- Model probability calibration improved interpretability and produced realistic predictions.
+- High-energy, modern, danceable tracks tended to perform significantly better in streaming environments.
 
-Loudness
+---
 
-Release Year
+## 🧠 Methodology
 
-Probability calibration improved interpretability—model probabilities reflect realistic likelihoods of success.
+### **1. Data Source**
+- **Spotify Dataset 1921–2020** from Kaggle  
+- Extended reference from Spotify Web API documentation  
+- Focused on tracks **2012–2021** (modern scoring era after the introduction of Spotify’s “Follow” feature)
 
-Results show that modern, high-energy tracks tend to perform better, aligning with current streaming trends.
+### **2. Data Preparation**
+- Filtered out pre-2012 tracks  
+- Cleaned missing values  
+- Standardized date formats  
+- Created binary label `is_popular`  
+- Normalized numerical features when necessary  
+- Train/test split (80/20 stratified)
 
-🧠 Methodology
+### **3. Modeling**
+Models tested:
+- **Linear Regression** (baseline)
+- **Random Forest**
+- **Gradient Boosting Classifier** (best performance)
 
-Data Source:
+Evaluation metrics:
+- Accuracy  
+- Precision/Recall  
+- ROC Curve & AUC  
+- Feature importance  
 
-Spotify Dataset 1921–2020 (Kaggle)
+### **4. Tools**
+- Python  
+- Pandas, NumPy, Matplotlib, Seaborn  
+- scikit-learn  
+- Jupyter Notebook  
 
-Spotify Web API
+---
 
-Data Preparation:
+## 📊 Results Visualization
 
-Filtered tracks released after 2012
+### 🔥 Feature Importance
+<p align="center">
+  <img src="results/figures/feature_importance.png" width="600">
+</p>
 
-Cleaned missing values and normalized formats
+<details>
+<summary>📈 View ROC Curve</summary>
+<p align="center">
+  <img src="results/figures/roc_curve.png" width="600">
+</p>
+</details>
 
-Created binary label: is_popular (top 20% = popular)
+<details>
+<summary>🎨 Correlation Heatmap</summary>
+<p align="center">
+  <img src="results/figures/correlation_heatmap.png" width="600">
+</p>
+</details>
 
-Train/test split (80/20, stratified)
+---
 
-Modeling:
-
-Algorithms tested: Linear Regression, Random Forest, Gradient Boosting
-
-Evaluation metrics: Accuracy, Precision, Recall, ROC-AUC
-
-Visualization: Correlation heatmaps, ROC curve, feature importance charts
-
-Tools & Libraries:
-
-Python (Pandas, NumPy, scikit-learn, Matplotlib, Seaborn)
-
-Jupyter Notebook for development and visualization
-
-📊 Results Visualization
-
-Feature Correlation Heatmap showing relationships among key features.
-
-ROC Curve indicating model performance with AUC > 0.8.
-
-Feature Importance Chart highlighting energy, danceability, and loudness as dominant predictors.
-
-(See /notebooks/visualizations/ for figures.)
-
-🧩 Future Work
-
-Integrate Spotify API for real-time song prediction using track IDs.
-
-Incorporate genre and lyrical sentiment analysis.
-
-Explore temporal shifts in popularity trends using yearly models.
-
-Deploy a web-based dashboard where users can input a song and view its predicted popularity score.
+## ⚙️ Repository Structure
