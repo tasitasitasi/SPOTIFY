@@ -105,10 +105,43 @@ Evaluation metrics:
 
 ---
 
-## ⚙️ Repository Structure
-
 
 ## Demo:
 <p align="center">
   <img src="assets/demo.gif" width="700" alt="Demo of model dashboard">
 </p>
+
+### 🧩 Future Work
+
+Integrate Spotify Web API for real-time predictions using track IDs
+
+Add genre and lyrical sentiment analysis
+
+Build a full interactive dashboard for prediction and visualization
+
+Explore year-by-year predictive models to capture changing music trends
+
+### 👩‍💻 Team Members
+
+Nikita Belii – Data Cleaning, Visualization, Documentation
+
+Tasianna Giordano – Modeling, Visualization, Front-End Development
+
+Anthony Gutierrez – Resources, Risk Management, Model Evaluation
+
+Martin Gonzalez – Deployment, Dashboard Development, Presentation
+
+### 📚 References
+
+Herremans, D., Martens, D., & Sörensen, K. (2014). Dance Hit Song Prediction.
+
+Zangerle, E., Huber, R., & Vötter, M. (2019). Hit Song Prediction: Leveraging Low- and High-Level Audio Features.
+
+Lech, M. E., Lehmann, S., & Juul, J. L. (2025). Is It Getting Harder to Make a Hit?
+
+Spotify Web API Documentation
+
+### 🧾 License
+
+This project was created for the FAU Data Science Capstone Course (ISC 4941).
+© 2025 FAU Team — All rights reserved.
