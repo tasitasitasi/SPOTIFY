@@ -106,3 +106,9 @@ Evaluation metrics:
 ---
 
 ## ⚙️ Repository Structure
+
+
+## Demo:
+<p align="center">
+  <img src="assets/demo.gif" width="700" alt="Demo of model dashboard">
+</p>
