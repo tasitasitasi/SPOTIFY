@@ -18,7 +18,7 @@
 
 ---
 
-## 📖 Overview
+##  Overview
 This project explores whether we can **predict a song’s popularity on Spotify** based solely on its **audio features and metadata**. Using more than **62,000 tracks released from 2012–2021**, we trained machine learning models to identify which characteristics—such as **energy, danceability, loudness, and valence**—are most strongly associated with high popularity.
 
 Spotify’s popularity score ranges from **0 to 100**, but because the metric is influenced by several complex factors (stream counts, recency, user engagement), we transformed it into a **binary classification**:  
@@ -29,12 +29,12 @@ Our goal is not only prediction but also **understanding** what makes music reso
 
 ---
 
-## 🎯 Objective
+##  Objective
 The main objective of this project is to build a machine learning model capable of estimating a track’s popularity using **audio features only**, while uncovering important insights into how modern musical elements influence listener preferences.
 
 ---
 
-## 💡 Key Findings
+##  Key Findings
 - After filtering the dataset to include **tracks released after 2012**, we analyzed **62,015 tracks**.
 - A **Gradient Boosting Classifier** produced the strongest results with **~75% accuracy**, balanced precision, and strong AUC.
 - Top predictors of popularity were:  
@@ -47,7 +47,7 @@ The main objective of this project is to build a machine learning model capable 
 
 ---
 
-## 🧠 Methodology
+##  Methodology
 
 ### **1. Data Source**
 - **Spotify Dataset 1921–2020** from Kaggle  
@@ -82,9 +82,9 @@ Evaluation metrics:
 
 ---
 
-## 📊 Results Visualization
+##  Results Visualization
 
-### 🔥 Feature Importance
+###  Feature Importance
 <p align="center">
   <img src="results/figures/feature_importance.png" width="600">
 </p>
@@ -97,7 +97,7 @@ Evaluation metrics:
 </details>
 
 <details>
-<summary>🎨 Correlation Heatmap</summary>
+<summary> Correlation Heatmap</summary>
 <p align="center">
   <img src="results/figures/correlation_heatmap.png" width="600">
 </p>
@@ -114,7 +114,7 @@ Evaluation metrics:
 ---
 
 
-### 🧩 Future Work
+###  Future Work
 
 Integrate Spotify Web API for real-time predictions using track IDs
 
@@ -128,7 +128,7 @@ Explore year-by-year predictive models to capture changing music trends
 
 
 
-### 👩‍💻 Team Members
+###  Team Members
 
 Nikita Belii – Data Cleaning, Visualization, Documentation
 
@@ -138,7 +138,7 @@ Anthony Gutierrez – Resources, Risk Management, Model Evaluation
 
 Martin Gonzalez – Deployment, Dashboard Development, Presentation
 
-### 📚 References
+###  References
 
 Herremans, D., Martens, D., & Sörensen, K. (2014). Dance Hit Song Prediction.
 
@@ -152,7 +152,7 @@ Spotify Web API Documentation
 ---
 
 
-### 🧾 License
+###  License
 
 This project was created for the FAU Data Science Capstone Course (ISC 4941).
 © 2025 FAU Team — All rights reserved.
